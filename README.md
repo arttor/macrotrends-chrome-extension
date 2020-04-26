@@ -13,7 +13,7 @@ Supported filters:
 1. clone repository
 2. open url `chrome://extensions/` in chrome
 3. enable developer mode in upper-right corner
-4. press `Load unpacked` putton and select root directory of cloned repo
+4. press `Load unpacked` button and select root directory of cloned repo
 
 ### From Chrome web-store
 TBD
