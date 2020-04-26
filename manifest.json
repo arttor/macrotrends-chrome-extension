@@ -1,20 +1,22 @@
 {
-    "name": "Spb stock market filter for macrotrends.net",
-    "version": "1.0",
-    "manifest_version": 2,
-    "browser_action":
-    {
-        "default_popup": "options.html"
+      "name": "Spb stock market filter for macrotrends",
+      "version": "1.0",
+      "manifest_version": 2,
+      "browser_action": 
+     {
+   "default_icon": "icon.png",
+   "default_popup": "popup.html"
     },
-    "content_scripts": [
-    {
-        "matches": [
+      "content_scripts": [
+        {
+          "matches": [
             "https://www.macrotrends.net/stocks/stock-screener"
-        ],
-        "js": ["content.js"],
-        "run_at": "document_end"
-    }],
-    "permissions": [
-        "activeTab", "storage"
-    ]
+          ],
+          "js": ["content.js"],
+          "run_at": "document_end"
+        }
+      ],
+      "permissions": [
+              "activeTab", "storage"
+             ]
 }
