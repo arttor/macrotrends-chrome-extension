@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Options</title>
+    <style>
+    .textarea-invalid-class {
+        background-color: pink !important;
+    }
+    </style>
+</head>
+
+<body>
+    <div style="white-space: nowrap; margin-bottom: 3px;">Stocks filter by tickers:</div>
+    <div>
+        <textarea id="customTickers" cols="40" rows="8" placeholder="Input your custom stock tikers: [&quot;ORCL&quot;,&quot;AMZN&quot;]"></textarea>
+        <button style="width: 100%; margin-bottom: 3px;" id="customTickersSetBtn">Set custom tickers</button>
+    </div>
+    <div>
+        <button style="width: 100%; margin-bottom: 3px;" id="spbTickersBtn">Show SPB exchange only</button>
+    </div>
+    <div>
+        <button style="width: 100%;" id="discardBtn">Discard</button>
+    </div>
+    <script src="options.js"></script>
+</body>
+
+</html>
