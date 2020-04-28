@@ -16,4 +16,4 @@ Supported filters:
 4. press `Load unpacked` button and select root directory of cloned repo
 
 ### From Chrome web-store
-TBD
+https://chrome.google.com/webstore/detail/spb-stock-market-filter-f/ngifcblkgfimkeijfgaboilfojknbmao
