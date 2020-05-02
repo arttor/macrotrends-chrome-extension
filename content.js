@@ -41,7 +41,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             break;
         case 'custom':
             var script = document.createElement('script');
-            console.log(request.filter)
             script.appendChild(document.createTextNode('(' + filter + ')(' + request.filter + ');'));
             (document.body || document.head || document.documentElement).appendChild(script);
             sendResponse({})
@@ -51,3 +50,85 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     sendResponse({})
 });
+
+function main(fFilter, fDiscard, fSpb) {
+    var quickFilter = new Set()
+    var quickFilterDiv = document.createElement("div");
+    var quickFilterBtnsDiv = document.createElement("div");
+    quickFilterBtnsDiv.style.display = "none"
+    var buttonApply = document.createElement("BUTTON");
+    buttonApply.innerHTML = "Apply";
+    buttonApply.addEventListener("click", function() {
+        fFilter(Array.from(quickFilter))
+        $('#jqxGrid').jqxGrid('clearselection');
+        $('#jqxGrid').jqxGrid('selectallrows')
+    });
+    quickFilterBtnsDiv.appendChild(buttonApply)
+    var buttonDiscard = document.createElement("BUTTON");
+    buttonDiscard.innerHTML = "Discard";
+    buttonDiscard.addEventListener("click", function() {
+        fDiscard()
+        $('#jqxGrid').jqxGrid('clearselection');
+        quickFilter = new Set()
+        updateFilter()
+    });
+    quickFilterBtnsDiv.appendChild(buttonDiscard)
+    var buttonSpb = document.createElement("BUTTON");
+    buttonSpb.innerHTML = "Discard to SPB";
+    buttonSpb.style.whiteSpace = "nowrap";
+    buttonSpb.addEventListener("click", function() {
+        fSpb()
+        $('#jqxGrid').jqxGrid('clearselection');
+        quickFilter = new Set()
+        updateFilter()
+    });
+    quickFilterBtnsDiv.appendChild(buttonSpb)
+    var updateFilter = function() {
+        if (quickFilter.size) {
+            quickFilterDiv.innerHTML = JSON.stringify(Array.from(quickFilter))
+            quickFilterBtnsDiv.style.display = "inline"
+        } else {
+            quickFilterDiv.innerHTML = Array.from(quickFilter)
+            quickFilterBtnsDiv.style.display = "none"
+        }
+    }
+    $("#jqxGrid").jqxGrid({ selectionmode: 'multiplerows' })
+    $('#jqxGrid').on('rowselect', function(event) {
+        quickFilter.add(event.args.row.ticker)
+        updateFilter()
+    });
+    $('#jqxGrid').on('rowunselect', function(event) {
+        quickFilter.delete(event.args.row.ticker)
+        updateFilter()
+    });
+    $("#jqxGrid").on("bindingcomplete", function(event) {
+    	if (quickFilter.size){
+            $('#jqxGrid').jqxGrid('clearselection');
+            $('#jqxGrid').jqxGrid('getrows').forEach((value, index, array)=>{
+            	if(quickFilter.has(value.ticker)){
+            		$('#jqxGrid').jqxGrid('selectrow', value.boundindex)
+            	}
+            })
+    	}
+    });
+    document.getElementsByClassName("left_sidebar")[0].appendChild(quickFilterDiv);
+    document.getElementsByClassName("left_sidebar")[0].appendChild(quickFilterBtnsDiv);
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        var isEscape = false;
+        if ("key" in evt) {
+            isEscape = (evt.key === "Escape" || evt.key === "Esc");
+        } else {
+            isEscape = (evt.keyCode === 27);
+        }
+        if (isEscape) {
+            $('#jqxGrid').jqxGrid('clearselection');
+            quickFilter = new Set()
+            updateFilter()
+        }
+    };
+}
+
+var scriptMain = document.createElement('script');
+scriptMain.appendChild(document.createTextNode('(' + main + ')(' + filter + ',' + discard + ',' + spb + ');'));
+(document.body || document.head || document.documentElement).appendChild(scriptMain);
