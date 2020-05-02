@@ -60,8 +60,6 @@ function main(fFilter, fDiscard, fSpb) {
     buttonApply.innerHTML = "Apply";
     buttonApply.addEventListener("click", function() {
         fFilter(Array.from(quickFilter))
-        $('#jqxGrid').jqxGrid('clearselection');
-        $('#jqxGrid').jqxGrid('selectallrows')
     });
     quickFilterBtnsDiv.appendChild(buttonApply)
     var buttonDiscard = document.createElement("BUTTON");
