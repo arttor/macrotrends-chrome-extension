@@ -8,10 +8,11 @@ function spb() {
 
 function custom() {
     var customTickers = document.getElementById('customTickers')
-    if (IsJsonArr(customTickers.value)) {
+    var customTickersVal = customTickers.value.trim().split(',')
+    if (true) {
         customTickers.classList.remove("textarea-invalid-class")
-        chrome.storage.sync.set({ customTickers: customTickers.value });
-        sendMessage({ filter: customTickers.value, type: "custom" }, response => {})
+        chrome.storage.sync.set({ customTickers: customTickersVal });
+        sendMessage({ filter: JSON.stringify(customTickersVal), type: "custom" }, response => {})
     } else {
         customTickers.classList.add("textarea-invalid-class")
         customTickers.focus()
@@ -35,16 +36,7 @@ document.getElementById('customTickersSetBtn').addEventListener('click',
 document.addEventListener("DOMContentLoaded", function(event) {
     chrome.storage.sync.get(['customTickers'], function(data) {
         if (data.customTickers) {
-            document.getElementById('customTickers').value = data.customTickers;
+            document.getElementById('customTickers').value = data.customTickers.join();
         }
     });
 });
-
-function IsJsonArr(str) {
-    try {
-        var json = JSON.parse(str);
-        return Array.isArray(json);
-    } catch (e) {
-        return false;
-    }
-}

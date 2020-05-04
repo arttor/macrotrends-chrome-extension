@@ -83,7 +83,7 @@ function main(fFilter, fDiscard, fSpb) {
     quickFilterBtnsDiv.appendChild(buttonSpb)
     var updateFilter = function() {
         if (quickFilter.size) {
-            quickFilterDiv.innerHTML = JSON.stringify(Array.from(quickFilter))
+            quickFilterDiv.innerHTML = Array.from(quickFilter)
             quickFilterBtnsDiv.style.display = "inline"
         } else {
             quickFilterDiv.innerHTML = Array.from(quickFilter)
