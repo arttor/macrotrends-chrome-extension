@@ -1,0 +1,22 @@
+name: release-artifact
+
+on: 
+  push:
+    tags:
+    - '*'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }} 
+    - name: prepare artifact
+      run: |
+        export FILENAME="macrotrends-ext-$(cat manifest.json | grep '"version":' | awk -F'"' '{print $4}')).zip"
+        zip -r $FILENAME . -x '*README.md*' -x '.*' 
+        echo "::set-env name=ARTIFACT_NAME::$FILENAME"
+    - uses: ncipollo/release-action@v1
+      with:
+        artifact: "${{ env.ARTIFACT_NAME }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
