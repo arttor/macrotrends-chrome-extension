@@ -4,8 +4,9 @@ Allows to filter stocks by ticker on https://www.macrotrends.net/stocks/stock-sc
 
 
 Supported filters:
-* custom: filter from user input like `["AMZN","ORCL"]`
+* custom: filter from user input like `AMZN,ORCL,MSFT`
 * SPB exchage: shows only available on [Saint-Petersbutg stock exchange](http://spbexchange.com/)
+* by manual selection from screener table on page
 
 ## Installation
 
