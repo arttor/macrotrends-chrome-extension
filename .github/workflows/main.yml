@@ -18,5 +18,7 @@ jobs:
         echo "::set-env name=ARTIFACT_NAME::$FILENAME"
     - uses: ncipollo/release-action@v1
       with:
-        artifact: "${{ env.ARTIFACT_NAME }}"
+        artifacts: "${{ env.ARTIFACT_NAME }}"
+        allowUpdates: true
+        artifactContentType: "zip"
         token: ${{ secrets.GITHUB_TOKEN }}
