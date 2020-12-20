@@ -8,7 +8,9 @@ function spb() {
 
 function custom() {
     var customTickers = document.getElementById('customTickers')
-    var customTickersVal = customTickers.value.trim().split(',')
+    var tikersInput = customTickers.value.trim().replaceAll(/[^a-zA-Z,]/g, "").toUpperCase();
+    customTickers.value = tikersInput
+    var customTickersVal = tikersInput.split(',')
     if (true) {
         customTickers.classList.remove("textarea-invalid-class")
         chrome.storage.sync.set({ customTickers: customTickersVal });
@@ -25,6 +27,17 @@ function sendMessage(msg, onResponse) {
         chrome.tabs.sendMessage(activeTab.id, msg, {}, onResponse);
     });
 }
+
+
+document.getElementById('customTickers').onkeyup = function(evt) {
+    evt = evt || window.event;
+
+    if (evt.keyCode == 13) {
+        custom();
+        e.preventDefault();
+    }
+};
+
 
 document.getElementById('discardBtn').addEventListener('click',
     discard);
